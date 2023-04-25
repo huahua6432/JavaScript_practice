@@ -39,6 +39,7 @@
         }
 
         .result-list {
+            display: none;
             position: absolute;
             left: 0;
             top: 48px;
@@ -76,7 +77,17 @@
         </ul>
     </div>
     <script>
+        const input = document.querySelector('[type=search]')
+        const ul = document.querySelector(' .result-list')
+        input.addEventListener('focus', () => {
+            ul.style.display = 'block'
+            input.classList.add('search')
+        })
 
+        input.addEventListener('blur', () => {
+            ul.style.display = 'none'
+            input.classList.remove('search')
+        })
     </script>
 
 </body>
