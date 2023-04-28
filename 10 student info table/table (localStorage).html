@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>student system</title>
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+    <h1>Add student</h1>
+    <form class="info" autocomplete="off">
+        Name：<input type="text" class="uname" name="uname" />
+        Age：<input type="text" class="age" name="age" />
+        Gender:
+        <select name="gender" class="gender">
+            <option value="male">M</option>
+            <option value="female">F</option>
+        </select>
+        salary：<input type="text" class="salary" name="salary" />
+        city：<select name="city" class="city">
+            <option value="Beijing">Beijing</option>
+            <option value="Shanghai">Shanghai</option>
+            <option value="Guangzhou">Guangzhou</option>
+            <option value="Shenzhen">Shenzhen</option>
+        </select>
+        <button class="add">Add</button>
+    </form>
+
+    <h1>Rank</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Salary</th>
+                <th>City</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        const initData = [
+            {
+                stuId: 1,
+                uname: 'aaa',
+                age: 22,
+                gender: 'F',
+                salary: 32320,
+                city: 'Boston'
+            }
+        ]
+
+        // localStorage.setItem('data', JSON.stringify(initData))
+
+        const arr = JSON.parse(localStorage.getItem('data')) || []
+        const tbody = document.querySelector('tbody')
+        const uname = document.querySelector('.uname')
+        const age = document.querySelector('.age')
+        const gender = document.querySelector('.gender')
+        const salary = document.querySelector('.salary')
+        const city = document.querySelector('.city')
+
+        function render() {
+            const trArr = arr.map((ele, idx) => {
+                return `
+                <tr>
+                <td>${ele.stuId}</td>
+                <td>${ele.uname}</td>
+                <td>${ele.age}</td>
+                <td>${ele.gender}</td>
+                <td>${ele.salary}</td>
+                <td>${ele.city}</td>
+                <td>
+                    <a href="javascript:" data-id="${idx}">Delete</a>
+                </td>
+                </tr>
+                `
+            })
+            tbody.innerHTML = trArr.join('')
+
+        }
+
+        render()
+
+        const info = document.querySelector('.info')
+        info.addEventListener('submit', (e) => {
+            e.preventDefault()
+            if (!uname.value || !age.value || !salary.value)
+                return alert('invalid')
+
+            arr.push({
+                stuId: arr.length ? arr[arr.length - 1].stuId + 1 : 1,
+                uname: uname.value,
+                age: age.value,
+                gender: gender.value,
+                salary: salary.value,
+                city: city.value
+            })
+            info.reset()
+            render()
+
+            localStorage.setItem('data', JSON.stringify(arr))
+        })
+
+        tbody.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                if (confirm("delete?")) {
+                    arr.splice(e.target.dataset.id, 1)
+                    render()
+                    localStorage.setItem('data', JSON.stringify(arr))
+                }
+            }
+        })
+
+
+    </script>
+
+</body>
+
+</html>

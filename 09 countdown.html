@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>countdown</title>
+</head>
+
+<body>
+    <div class="countdown">
+        <p class="next">今天是2222年2月22日</p>
+        <p class="title">下班倒计时</p>
+        <p class="clock">
+            <span id="hour">00</span>
+            <i>:</i>
+            <span id="minute">00</span>
+            <i>:</i>
+            <span id="second">00</span>
+        </p>
+        <p class="tips">18:30:00下课</p>
+    </div>
+
+    <script>
+        function getCountTime() {
+            const now = +new Date()
+            const future = +new Date('2023-5-1 18:30:00')
+            const count = (future - now) / 1000
+
+            let d = parseInt(count / 60 / 60 / 24)
+            let h = parseInt(count / 60 / 60 % 24)
+            h = h < 10 ? '0' + h : h
+            let m = parseInt(count / 60 % 60)
+            m = m < 10 ? '0' + m : m
+            let s = parseInt(count % 60)
+            s = s < 10 ? '0' + s : s
+
+            const hour = document.querySelector('#hour')
+            const minute = document.querySelector('#minute')
+            const second = document.querySelector('#second')
+            hour.innerHTML = h
+            minute.innerHTML = m
+            second.innerHTML = s
+        }
+        getCountTime()
+        setInterval(getCountTime, 1000)
+
+    </script>
+</body>
+
+</html>
